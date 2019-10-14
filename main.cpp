@@ -2,10 +2,12 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iomanip>
 using namespace std;
 void start();
 void ChangeUpperToLower(string  &name);
 bool FileName(string &pointer);
+void HelpDocumention();
 vector <string> VectorSplitedStrings;
 int main()
 {
@@ -14,7 +16,7 @@ int main()
 }
 void start()
 {
-    while()
+    while(1)
     {
         string YourCommandLine;
         getline(cin , YourCommandLine);
@@ -41,36 +43,37 @@ void start()
             cout << "Yes";
             VectorSplitedStrings.clear();
         }
-        if(PointerToVector[0] == "basu" && PointerToVector[1] == "remove" && PointerToVector[2] == "class" && FileName(PointerToVector[3]))
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "remove" && PointerToVector[2] == "class" && FileName(PointerToVector[3]))
         {
 
 
 
         }
-        if(PointerToVector[0] == "basu" && PointerToVector[1] == "show" && FileName(PointerToVector[2]))
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "show" && FileName(PointerToVector[2]))
         {
         cout << "dorost kar mikone :D";
         }
-        if(PointerToVector[0] == "basu" && PointerToVector[1] == "sort" && PointerToVector[2] == "name")
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "sort" && PointerToVector[2] == "name")
         {
             cout << "Sort Name";
         }
-        if(PointerToVector[0] == "basu" && PointerToVector[1] == "sort" && PointerToVector[2] == "ID")
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "sort" && PointerToVector[2] == "ID")
         {
             cout << "Sort ID";
         }
-        if(PointerToVector[0] == "basu" && PointerToVector[1] == "save")
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "save")
         {
             cout << "Saved :D";
         }
-        if(PointerToVector[0] == "basu" && PointerToVector[1] == "select" && PointerToVector[2] == "class" && FileName(PointerToVector[3]))
-
-
-
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "help")
         {
-            VectorSplitedStrings.clear();
+            HelpDocumention();
+        }
+        else if(PointerToVector[0] == "basu" && PointerToVector[1] == "select" && PointerToVector[2] == "class" && FileName(PointerToVector[3]))
+        {
             string YourClass = PointerToVector[3];
-            while()
+            VectorSplitedStrings.clear();
+            while(1)
             {
                 string YourCommandLine;
                 getline(cin , YourCommandLine);
@@ -96,26 +99,43 @@ void start()
                 {
                     cout << "Great";
                 }
-                if(PointerToVector[0] == "basu" && PointerToVector[1] == "search")
+                else if(PointerToVector[0] == "basu" && PointerToVector[1] == "add" && PointerToVector[2] == "student")
+                {
+                    cout <<"Add Student Pleas";
+                }
+                else if(PointerToVector[0] == "basu" && PointerToVector[1] == "search")
                 {
 
                 }
-                if(PointerToVector[0] == "basu" && PointerToVector[1] == "search")
+                else if(PointerToVector[0] == "basu" && PointerToVector[1] == "search")
                 {
 
                 }
-                if(PointerToVector[0] == "basu" && PointerToVector[1] == "show" && PointerToVector[2] != YourClass)
+                else if(PointerToVector[0] == "basu" && PointerToVector[1] == "show" && PointerToVector[2] != YourClass)
                 {
                     cout << "ali";
                 }
-                if(PointerToVector[0] == "basu" && PointerToVector[1] == "show" && PointerToVector[2] == YourClass)
+                else if(PointerToVector[0] == "basu" && PointerToVector[1] == "show" && PointerToVector[2] == YourClass)
                 {
                     cout << "Hello World";
+                }
+                else if(PointerToVector[0] == "basu" && PointerToVector[1] == "help")
+                {
+                    HelpDocumention();
+                }
+                else
+                {
+                    cout << "basu help" << setw(4) << "-> help documention" << endl;
+                    VectorSplitedStrings.clear();
                 }
 
             }
 
 
+        }
+        else
+        {
+            cout << "basu help" << setw(4) << "-> help documention" << endl;
         }
 
     }
@@ -142,4 +162,22 @@ bool FileName(string &pointer)
     }
     return false;
 
+}
+void HelpDocumention()
+{
+    cout << "There is some commandline for ypu that can enter to consol" << endl << endl;
+    cout << "1 : basu add class" << endl;
+    cout << "2 : basu remove class" << endl;
+    cout << "3 : basu add student" << endl;
+    cout << "4 : basu remove student <ID>" << endl;
+    cout << "5 : basu select class <Class Name>" << endl;
+    cout << "6 : basu select none" << endl;
+    cout << "7 : basu search <ID>" << endl;
+    cout << "8 : basu search <Full Name>" << endl;
+    cout << "9 : basu show" << endl;
+    cout << "10 : basu show <Class Name>" << endl;
+    cout << "11 : basu sort name " << endl;
+    cout << "12 : basu sort id" << endl;
+    cout << "13 : basu save" << endl;
+    cout << "14 : exit" << endl;
 }
