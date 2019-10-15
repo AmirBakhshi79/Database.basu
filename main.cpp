@@ -136,6 +136,7 @@ void start()
         else
         {
             cout << "basu help" << setw(4) << "-> help documention" << endl;
+            VectorSplitedStrings.clear();
         }
 
     }
