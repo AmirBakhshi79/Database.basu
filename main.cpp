@@ -17,6 +17,7 @@ void AddStudent1(string Srt);
 void ShowClass(string Str);
 void ShowAll();
 void BasuSearchID(unsigned long long int ID);
+void BasuShowClass(string Str);
 string YourClass;
 vector <string> VectorSplitedStrings;
 struct Date
@@ -82,9 +83,10 @@ void start()
 
 
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && FileName(VectorSplitedStrings.at(2)))
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && Class_Name(VectorSplitedStrings.at(2)))
         {
-        cout << "dorost kar mikone :D";
+            BasuShowClass(VectorSplitedStrings.at(2));
+            VectorSplitedStrings.clear();
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "name")
         {
@@ -101,6 +103,11 @@ void start()
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "help")
         {
             HelpDocumention();
+            VectorSplitedStrings.clear();
+        }
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "showall" && VectorSplitedStrings.size() == 2)
+        {
+            ShowAll();
             VectorSplitedStrings.clear();
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "select" && VectorSplitedStrings.at(2) == "class" && Class_Name(VectorSplitedStrings.at(3)))
@@ -153,6 +160,11 @@ void start()
                     AddStudent1(Str);
                     VectorSplitedStrings.clear();
 
+                }
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && Class_Name(VectorSplitedStrings.at(2)))
+                {
+                    BasuShowClass(VectorSplitedStrings.at(2));
+                    VectorSplitedStrings.clear();
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search" && VectorSplitedStrings.size() == 3)
                 {
@@ -424,8 +436,6 @@ void ShowClass(string Str)
         if(i.ClassName == Str)
         {
             Status = true;
-            cout << i.ClassName << endl;
-            cout << i.Capacity;
             for(int j = 0 ; j < i.Capacity ; j++)
             {
                 cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
@@ -442,17 +452,25 @@ void ShowClass(string Str)
 }
 void ShowAll()
 {
-    for(auto &i : Database)
+    if(Database.size() != 0)
     {
+        for(auto &i : Database)
+        {
 
             for(int k = 0 ; k < i.Capacity ; k++)
             {
                 cout << i.Data.at(k).Firstname << " " << i.Data.at(k).Lastname << " " << i.Data.at(k).Birthday.Year << "/" <<
-                i.Data.at(k).Birthday.Month << "/" << i.Data.at(k).Birthday.Day << "/" << i.Data.at(k).Grade << " " << i.Data.at(k).ID << endl;
+                     i.Data.at(k).Birthday.Month << "/" << i.Data.at(k).Birthday.Day << "/" << i.Data.at(k).Grade << " " << i.Data.at(k).ID << endl;
             }
             cout << endl << endl << endl ;
 
+        }
     }
+    else
+    {
+        cout << "You must add at least one class to database then type showall" << endl;
+    }
+
 
 }
 void BasuSearchID(unsigned long long int ID)
@@ -476,5 +494,27 @@ void BasuSearchID(unsigned long long int ID)
     if(!Status)
     {
         cout << "Your ID isnt in your selected class...";
+    }
+}
+void BasuShowClass(string Str)
+{
+    bool Status = false;
+    for(auto i : Database)
+    {
+        if(i.ClassName == Str)
+        {
+            for(int j = 0 ; j < i.Capacity ; j++)
+            {
+                cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
+                i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << "/" << i.Data.at(j).Grade << " " << i.Data.at(j).ID << endl;
+                Status = true;
+
+            }
+        }
+    }
+    if(!Status)
+    {
+        cout << "There is no class in database" << endl;
+        cout << "You must add at least one class to data base" << endl;
     }
 }
