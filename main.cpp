@@ -13,7 +13,9 @@ bool Class_Name(string &pointer);
 void HelpDocumention();
 bool IsOrIsnt(string &Str);
 void RemoveStudent(unsigned long long int id);
-‫‪void AddStudent();‪
+void AddStudent1(string Srt);
+void BasuShow(string Str);
+string YourClass;
 vector <string> VectorSplitedStrings;
 struct Date
 {
@@ -37,6 +39,7 @@ struct Class
     vector <Student> Data;
 };
 vector <Class> Database;
+void AddStudent2(string FirstName , string LastName , Date date , unsigned long long int ID , float Average);
 int main()
 {
     start();
@@ -101,7 +104,7 @@ void start()
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "select" && VectorSplitedStrings.at(2) == "class" && Class_Name(VectorSplitedStrings.at(3)))
         {
             cout << VectorSplitedStrings.at(3) << " >> ";
-            string YourClass = VectorSplitedStrings.at(3);
+            YourClass = VectorSplitedStrings.at(3);
             VectorSplitedStrings.clear();
             while(1)
             {
@@ -142,19 +145,25 @@ void start()
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "add" && VectorSplitedStrings.at(2) == "student")
                 {
-                    cout <<"Add Student Pleas";
-                }
-                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search")
-                {
+
+                    string Str;
+                    getline(cin , Str);
+                    AddStudent1(Str);
+                    VectorSplitedStrings.clear();
 
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search")
                 {
 
                 }
-                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && VectorSplitedStrings.at(2) != YourClass)
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search")
                 {
-                    cout << "ali";
+
+                }
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" )
+                {
+                    BasuShow(YourClass);
+                    VectorSplitedStrings.clear();
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && VectorSplitedStrings.at(2) == YourClass)
                 {
@@ -282,6 +291,7 @@ void RemoveClass(string File)
     }
     if(!status)
     {
+
         cout  << "Your classname wasnt in database";
     }
 
@@ -335,4 +345,93 @@ void RemoveStudent(unsigned long long int id)
         }
     }
 
+}
+void AddStudent1(string Str)
+{
+    Str += ' ';
+    vector <string> YourString;
+    string t;
+    Date YourStudetDate;
+    unsigned long long int ID;
+    float Average;
+    for(auto &i : Str)
+    {
+        if(i != ' ')
+        {
+            t += i;
+        }
+        else
+        {
+            YourString.push_back(t);
+            t = "";
+        }
+
+    }
+    string temp[3];
+    unsigned int counter = 0;
+    for(auto j : YourString.at(2))
+    {
+        if (j != '/')
+            temp[counter] += j;
+        else
+            counter++;
+    }
+    YourStudetDate.Year = stoi(temp[0]);
+    YourStudetDate.Month = stoi(temp[1]);
+    YourStudetDate.Day = stoi(temp[2]);
+    ID = stoll(YourString.at(3));
+    Average = stof(YourString.at(4));
+    AddStudent2(YourString.at(0) , YourString.at(1), YourStudetDate , ID , Average);
+
+
+}
+void AddStudent2(string FirstName , string LastName , Date date , unsigned long long int ID , float Average)
+{
+    for(int i = 0 ; i <Database.size() ; i++)
+    {
+        if(Database.at(i).ClassName == YourClass)
+        {
+            Student NewStudent;
+            NewStudent.Firstname = FirstName ;
+            NewStudent.Lastname = LastName;
+            NewStudent.Birthday.Year = date.Year;
+            NewStudent.Birthday.Month = date.Month;
+            NewStudent.Birthday.Day = date.Day;
+            NewStudent.ID = ID;
+            NewStudent.Grade = Average;
+            Database.at(i).Data.push_back(NewStudent);
+            Database.at(i).Capacity++;
+            cout << Database.at(0).ClassName << endl;
+            cout << Database.at(0).Capacity << endl;
+            for (Student s : Database.at(0).Data)
+            {
+                cout << s.Firstname << " " << s.Lastname << " " << s.Birthday.Year << "/" <<
+                     s.Birthday.Month << "/" << s.Birthday.Day << " " << s.Grade << " " << s.ID << endl;
+            }
+        }
+    }
+}
+void BasuShow(string Str)
+{
+    bool Status = false;
+    for(auto &i : Database)
+    {
+        if(i.ClassName == Str)
+        {
+            Status = true;
+            cout << i.ClassName << endl;
+            cout << i.Capacity;
+            for(int j = 0 ; j < i.Capacity ; j++)
+            {
+                cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
+                i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << "/" << i.Data.at(j).Grade << " " << i.Data.at(j).ID << endl;
+            }
+        }
+
+    }
+    if(!Status)
+    {
+        cout << "You must first add your favorite class to datebase then show that class" << endl;
+        HelpDocumention();
+    }
 }
