@@ -14,7 +14,9 @@ void HelpDocumention();
 bool IsOrIsnt(string &Str);
 void RemoveStudent(unsigned long long int id);
 void AddStudent1(string Srt);
-void BasuShow(string Str);
+void ShowClass(string Str);
+void ShowAll();
+void BasuSearchID(unsigned long long int ID);
 string YourClass;
 vector <string> VectorSplitedStrings;
 struct Date
@@ -152,9 +154,11 @@ void start()
                     VectorSplitedStrings.clear();
 
                 }
-                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search")
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search" && VectorSplitedStrings.size() == 3)
                 {
-
+                    unsigned long long int id = stoll(VectorSplitedStrings.at(2));
+                    BasuSearchID(id);
+                    VectorSplitedStrings.clear();
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search")
                 {
@@ -162,12 +166,13 @@ void start()
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" )
                 {
-                    BasuShow(YourClass);
+                    ShowClass(YourClass);
                     VectorSplitedStrings.clear();
                 }
-                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && VectorSplitedStrings.at(2) == YourClass)
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "showall" && VectorSplitedStrings.size() == 2)
                 {
-                    cout << "Hello World";
+                    ShowAll();
+                    VectorSplitedStrings.clear();
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "help")
                 {
@@ -411,7 +416,7 @@ void AddStudent2(string FirstName , string LastName , Date date , unsigned long 
         }
     }
 }
-void BasuShow(string Str)
+void ShowClass(string Str)
 {
     bool Status = false;
     for(auto &i : Database)
@@ -433,5 +438,43 @@ void BasuShow(string Str)
     {
         cout << "You must first add your favorite class to datebase then show that class" << endl;
         HelpDocumention();
+    }
+}
+void ShowAll()
+{
+    for(auto &i : Database)
+    {
+
+            for(int k = 0 ; k < i.Capacity ; k++)
+            {
+                cout << i.Data.at(k).Firstname << " " << i.Data.at(k).Lastname << " " << i.Data.at(k).Birthday.Year << "/" <<
+                i.Data.at(k).Birthday.Month << "/" << i.Data.at(k).Birthday.Day << "/" << i.Data.at(k).Grade << " " << i.Data.at(k).ID << endl;
+            }
+            cout << endl << endl << endl ;
+
+    }
+
+}
+void BasuSearchID(unsigned long long int ID)
+{
+    bool Status = false;
+    for(auto i : Database)
+    {
+        if(i.ClassName == YourClass)
+        {
+            for(int j = 0 ; j < i.Capacity ; j++)
+            {
+                if(i.Data.at(j).ID == ID)
+                {
+                    cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
+                    i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << "/" << i.Data.at(j).Grade << " " << i.Data.at(j).ID << endl;
+                    Status = true;
+                }
+            }
+        }
+    }
+    if(!Status)
+    {
+        cout << "Your ID isnt in your selected class...";
     }
 }
