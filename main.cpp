@@ -258,6 +258,7 @@ void AddClass(string File)
     const char* fName = File.c_str();
     Class NewClass;
     ifstream Input;
+    float total = 0;
     Input.open(fName);
     if(!Input)
     {
@@ -287,11 +288,14 @@ void AddClass(string File)
             NewStudent.Birthday.Month = stoi(temp[1]);
             NewStudent.Birthday.Day = stoi(temp[2]);
             Input >> NewStudent.Grade;
+            total += NewStudent.Grade;
             Input >> NewStudent.ID;
             NewClass.Data.push_back(NewStudent);
         }
     }
+    NewClass.Average = total / NewClass.Capacity;
     Database.push_back(NewClass);
+    cout << Database.at(0).Average << endl;
     Input.close();
 }
 void RemoveClass(string File)
