@@ -18,6 +18,8 @@ void ShowClass(string Str);
 void ShowAll();
 void BasuSearchID(unsigned long long int ID);
 void BasuShowClass(string Str);
+void Search(string Str1 , string Str2);
+void LowToUp(string &pointer);
 string NameFileForDataBaseSaved();
 string YourClass;
 int i = 0;
@@ -176,9 +178,12 @@ void start()
                     BasuSearchID(id);
                     VectorSplitedStrings.clear();
                 }
-                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search")
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "search" && VectorSplitedStrings.size() == 4)
                 {
-
+                    LowToUp(VectorSplitedStrings.at(2));
+                    LowToUp(VectorSplitedStrings.at(3));
+                    Search(VectorSplitedStrings.at(2) , VectorSplitedStrings.at(3));
+                    VectorSplitedStrings.clear();
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" )
                 {
@@ -566,4 +571,33 @@ string NameFileForDataBaseSaved()
         i++;
         return Str;
     }
+}
+void Search(string Str1 , string Str2)
+{
+    bool Status = false;
+    for (auto i : Database)
+    {
+        if(i.ClassName == YourClass)
+        {
+            for(int j = 0 ; j < i.Capacity ; j++)
+            {
+                if(i.Data.at(j).Firstname == Str1 && i.Data.at(j).Lastname == Str2)
+                {
+                    cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
+                    i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << "/" << i.Data.at(j).Grade << " " << i.Data.at(j).ID << endl;
+                    Status = true;
+                    break;
+                }
+            }
+        }
+    }
+    if(!Status)
+    {
+        cout << "Your selected student isnt in your selected class";
+    }
+
+}
+void LowToUp(string &pointer)
+{
+    pointer.at(0)  -= 32;
 }
