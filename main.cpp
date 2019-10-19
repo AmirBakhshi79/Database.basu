@@ -18,8 +18,11 @@ void ShowClass(string Str);
 void ShowAll();
 void BasuSearchID(unsigned long long int ID);
 void BasuShowClass(string Str);
+string NameFileForDataBaseSaved();
 string YourClass;
+int i = 0;
 vector <string> VectorSplitedStrings;
+void Save();
 struct Date
 {
     unsigned short int Year;
@@ -98,7 +101,8 @@ void start()
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "save")
         {
-            cout << "Saved :D";
+            Save();
+            VectorSplitedStrings.clear();
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "help")
         {
@@ -295,7 +299,6 @@ void AddClass(string File)
     }
     NewClass.Average = total / NewClass.Capacity;
     Database.push_back(NewClass);
-    cout << Database.at(0).Average << endl;
     Input.close();
 }
 void RemoveClass(string File)
@@ -520,5 +523,47 @@ void BasuShowClass(string Str)
     {
         cout << "There is no class in database" << endl;
         cout << "You must add at least one class to data base" << endl;
+    }
+}
+void Save()
+{
+    ofstream CoutInFile;
+    if(Database.size() == 0)
+    {
+        cout << "Your database is already empty";
+    }
+    else
+    {
+        for(auto i : Database)
+        {
+            ofstream CoutInFile;
+            CoutInFile.open(NameFileForDataBaseSaved());
+            CoutInFile << i.ClassName << endl;
+            CoutInFile << i.Capacity << endl;
+            CoutInFile << i.Average << endl;
+            for(int j = 0 ; j < i.Capacity ; j++)
+            {
+                CoutInFile << i.Data.at(j).Firstname << setw(4) ;
+                CoutInFile << i.Data.at(j).Lastname << setw(4);
+                CoutInFile << i.Data.at(j).ID << setw(4);
+                CoutInFile << i.Data.at(j).Grade << setw(4);
+                CoutInFile << i.Data.at(j).Birthday.Year << "/" <<
+                           i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << endl;
+
+            }
+            CoutInFile.close();
+        }
+    }
+
+}
+string NameFileForDataBaseSaved()
+{
+
+    while(true)
+    {
+        string Str;
+        Str = to_string(i) + ".basu";
+        i++;
+        return Str;
     }
 }
