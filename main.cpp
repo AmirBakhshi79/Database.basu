@@ -20,6 +20,8 @@ void BasuSearchID(unsigned long long int ID);
 void BasuShowClass(string Str);
 void Search(string Str1 , string Str2);
 void LowToUp(string &pointer);
+void SortByName();
+void SortById();
 string NameFileForDataBaseSaved();
 string YourClass;
 int i = 0;
@@ -57,6 +59,7 @@ void start()
 {
     while(1)
     {
+
         string YourCommandLine;
         getline(cin , YourCommandLine);
         ChangeUpperToLower(YourCommandLine);
@@ -76,6 +79,7 @@ void start()
                 VectorSplitedStrings.push_back(SplitedWithSpaces);
             }
         }
+        bool Boolean = false;
         if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "add" && VectorSplitedStrings.at(2) == "class" && FileName(VectorSplitedStrings.at(3)))
         {
             AddClass(VectorSplitedStrings.at(3));
@@ -97,9 +101,10 @@ void start()
         {
             cout << "Sort Name";
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "ID")
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "id")
         {
-            cout << "Sort ID";
+            SortById();
+            VectorSplitedStrings.clear();
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "save")
         {
@@ -199,6 +204,12 @@ void start()
                 {
                     HelpDocumention();
                 }
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "select" && VectorSplitedStrings.at(2) == "none" && VectorSplitedStrings.size() == 3)
+                {
+                    Boolean = true;
+                    VectorSplitedStrings.clear();
+                    break;
+                }
                 else
                 {
                     cout << "basu help" << setw(4) << "-> help documention" << endl;
@@ -206,13 +217,15 @@ void start()
                 }
 
             }
-
-
         }
         else
         {
             cout << "basu help" << setw(4) << "-> help documention" << endl;
             VectorSplitedStrings.clear();
+        }
+        if(Boolean)
+        {
+            continue;
         }
 
     }
@@ -600,4 +613,20 @@ void Search(string Str1 , string Str2)
 void LowToUp(string &pointer)
 {
     pointer.at(0)  -= 32;
+}
+void SortById()
+{
+    for(auto & i : Database)
+    {
+        for(int j = 0 ; j < i.Capacity - 1 ; j++)
+        {
+            for(int k = 0 ; k < i.Capacity - j - 1 ; k++)
+            {
+                if(i.Data.at(k).ID > i.Data.at(k+1).ID)
+                {
+                    swap(i.Data.at(k).ID , i.Data.at(k+1).ID);
+                }
+            }
+        }
+    }
 }
