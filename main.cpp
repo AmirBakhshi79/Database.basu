@@ -99,7 +99,8 @@ void start()
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "name")
         {
-            cout << "Sort Name";
+            SortByName();
+            VectorSplitedStrings.clear();
         }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "id")
         {
@@ -217,6 +218,10 @@ void start()
                 }
 
             }
+        }
+        else if(VectorSplitedStrings.at(0) == "exit" && VectorSplitedStrings.size() == 1)
+        {
+            break;
         }
         else
         {
@@ -561,10 +566,10 @@ void Save()
             CoutInFile << i.Average << endl;
             for(int j = 0 ; j < i.Capacity ; j++)
             {
-                CoutInFile << i.Data.at(j).Firstname << setw(4) ;
-                CoutInFile << i.Data.at(j).Lastname << setw(4);
-                CoutInFile << i.Data.at(j).ID << setw(4);
-                CoutInFile << i.Data.at(j).Grade << setw(4);
+                CoutInFile << i.Data.at(j).Firstname << "   ";
+                CoutInFile << i.Data.at(j).Lastname << "   ";
+                CoutInFile << i.Data.at(j).ID << "   ";
+                CoutInFile << i.Data.at(j).Grade << "   ";
                 CoutInFile << i.Data.at(j).Birthday.Year << "/" <<
                            i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << endl;
 
@@ -624,7 +629,35 @@ void SortById()
             {
                 if(i.Data.at(k).ID > i.Data.at(k+1).ID)
                 {
-                    swap(i.Data.at(k).ID , i.Data.at(k+1).ID);
+                    swap(i.Data.at(k) , i.Data.at(k+1));
+                }
+            }
+        }
+    }
+}
+void SortByName()
+{
+    for(auto & i : Database)
+    {
+        for(int j = 0 ; j < i.Capacity - 1 ; j++)
+        {
+            for(int k = 0 ; k < i.Capacity - j - 1 ; k++)
+            {
+                for(int n = 0 ; n <= 4 ; n++)
+                {
+                    if(i.Data.at(k).Firstname.at(n) == i.Data.at(k+1).Firstname.at(n))
+                    {
+                        continue;
+                    }
+                    else if(i.Data.at(k).Firstname.at(n) > i.Data.at(k+1).Firstname.at(n))
+                    {
+                        swap(i.Data.at(k) , i.Data.at(k + 1));
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
