@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+//This program isnt sensitive to upper or lower case...
 using namespace std;
 void start();
 void RemoveClass(string File);
@@ -14,13 +15,14 @@ void HelpDocumention();
 bool IsOrIsnt(string &Str);
 void RemoveStudent(unsigned long long int id);
 void AddStudent1(string Srt);
-void ShowClass(string Str);
 void ShowAll();
 void BasuSearchID(unsigned long long int ID);
 void BasuShowClass(string Str);
 void Search(string Str1 , string Str2);
 void LowToUp(string &pointer);
 void SortByName();
+void LowToUp2(string &pointer);
+void LowToUp2(string &pointer);
 void SortById();
 string NameFileForDataBaseSaved();
 string YourClass;
@@ -60,6 +62,7 @@ void start()
     while(1)
     {
 
+        cout << "DataBase >>";
         string YourCommandLine;
         getline(cin , YourCommandLine);
         ChangeUpperToLower(YourCommandLine);
@@ -80,56 +83,62 @@ void start()
             }
         }
         bool Boolean = false;
-        if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "add" && VectorSplitedStrings.at(2) == "class" && FileName(VectorSplitedStrings.at(3)))
+        if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "add" && VectorSplitedStrings.at(2) == "class" && FileName(VectorSplitedStrings.at(3)) && VectorSplitedStrings.size() == 4)
         {
+            LowToUp2(VectorSplitedStrings.at(3));
             AddClass(VectorSplitedStrings.at(3));
             VectorSplitedStrings.clear();
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "remove" && VectorSplitedStrings.at(2) == "class" && Class_Name(VectorSplitedStrings.at(3)))
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "remove" && VectorSplitedStrings.at(2) == "class" && Class_Name(VectorSplitedStrings.at(3)) && VectorSplitedStrings.size() == 4)
         {
             RemoveClass(VectorSplitedStrings.at(3));
             VectorSplitedStrings.clear();
 
 
         }
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && VectorSplitedStrings.size() == 2)
+        {
+            ShowAll();
+            VectorSplitedStrings.clear();
+        }
         else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && Class_Name(VectorSplitedStrings.at(2)))
         {
             BasuShowClass(VectorSplitedStrings.at(2));
             VectorSplitedStrings.clear();
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "name")
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "name" && VectorSplitedStrings.size() == 3)
         {
             SortByName();
             VectorSplitedStrings.clear();
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "id")
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "sort" && VectorSplitedStrings.at(2) == "id" && VectorSplitedStrings.size() == 3)
         {
             SortById();
             VectorSplitedStrings.clear();
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "save")
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "save" && VectorSplitedStrings.size() == 2)
         {
             Save();
             VectorSplitedStrings.clear();
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "help")
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "help" && VectorSplitedStrings.size() == 2)
         {
             HelpDocumention();
             VectorSplitedStrings.clear();
         }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "showall" && VectorSplitedStrings.size() == 2)
+        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "select" && VectorSplitedStrings.at(2) == "class" && Class_Name(VectorSplitedStrings.at(3)) && VectorSplitedStrings.size() == 4)
         {
-            ShowAll();
-            VectorSplitedStrings.clear();
-        }
-        else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "select" && VectorSplitedStrings.at(2) == "class" && Class_Name(VectorSplitedStrings.at(3)))
-        {
-            cout << VectorSplitedStrings.at(3) << " >> ";
+            if(!IsOrIsnt(VectorSplitedStrings.at(3)))
+            {
+                cout << "In your Database inst your selected name....try again..." << endl << endl ;
+                continue;
+            }
             YourClass = VectorSplitedStrings.at(3);
             VectorSplitedStrings.clear();
+
             while(1)
             {
-
+                cout <<"Database >>" << YourClass << " >> ";
                 string YourCommandLine;
                 getline(cin , YourCommandLine);
                 ChangeUpperToLower(YourCommandLine);
@@ -166,12 +175,17 @@ void start()
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "add" && VectorSplitedStrings.at(2) == "student")
                 {
-
+                    cout <<"Database >>" << YourClass << " >> ";
                     string Str;
                     getline(cin , Str);
                     AddStudent1(Str);
                     VectorSplitedStrings.clear();
 
+                }
+                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && VectorSplitedStrings.size() == 2 )
+                {
+                    BasuShowClass(YourClass);
+                    VectorSplitedStrings.clear();
                 }
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" && Class_Name(VectorSplitedStrings.at(2)))
                 {
@@ -191,11 +205,7 @@ void start()
                     Search(VectorSplitedStrings.at(2) , VectorSplitedStrings.at(3));
                     VectorSplitedStrings.clear();
                 }
-                else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "show" )
-                {
-                    ShowClass(YourClass);
-                    VectorSplitedStrings.clear();
-                }
+
                 else if(VectorSplitedStrings.at(0) == "basu" && VectorSplitedStrings.at(1) == "showall" && VectorSplitedStrings.size() == 2)
                 {
                     ShowAll();
@@ -211,6 +221,10 @@ void start()
                     VectorSplitedStrings.clear();
                     break;
                 }
+                else if(VectorSplitedStrings.at(0) == "exit" && VectorSplitedStrings.size() == 1)
+                {
+                    exit(1);
+                }
                 else
                 {
                     cout << "basu help" << setw(4) << "-> help documention" << endl;
@@ -221,7 +235,7 @@ void start()
         }
         else if(VectorSplitedStrings.at(0) == "exit" && VectorSplitedStrings.size() == 1)
         {
-            break;
+            exit(1);
         }
         else
         {
@@ -289,7 +303,7 @@ void AddClass(string File)
     Input.open(fName);
     if(!Input)
     {
-        cout << "Ops...Error";
+        cout << "Ops...Error"<<endl;
     }
     else
     {
@@ -431,6 +445,7 @@ void AddStudent1(string Str)
     AddStudent2(YourString.at(0) , YourString.at(1), YourStudetDate , ID , Average);
 
 
+
 }
 void AddStudent2(string FirstName , string LastName , Date date , unsigned long long int ID , float Average)
 {
@@ -450,6 +465,7 @@ void AddStudent2(string FirstName , string LastName , Date date , unsigned long 
             Database.at(i).Capacity++;
             cout << Database.at(0).ClassName << endl;
             cout << Database.at(0).Capacity << endl;
+            Database.at(i).Capacity++;
             for (Student s : Database.at(0).Data)
             {
                 cout << s.Firstname << " " << s.Lastname << " " << s.Birthday.Year << "/" <<
@@ -458,28 +474,7 @@ void AddStudent2(string FirstName , string LastName , Date date , unsigned long 
         }
     }
 }
-void ShowClass(string Str)
-{
-    bool Status = false;
-    for(auto &i : Database)
-    {
-        if(i.ClassName == Str)
-        {
-            Status = true;
-            for(int j = 0 ; j < i.Capacity ; j++)
-            {
-                cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
-                i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << "/" << i.Data.at(j).Grade << " " << i.Data.at(j).ID << endl;
-            }
-        }
 
-    }
-    if(!Status)
-    {
-        cout << "You must first add your favorite class to datebase then show that class" << endl;
-        HelpDocumention();
-    }
-}
 void ShowAll()
 {
     if(Database.size() != 0)
@@ -533,8 +528,9 @@ void BasuShowClass(string Str)
     {
         if(i.ClassName == Str)
         {
-            for(int j = 0 ; j < i.Capacity ; j++)
+            for(int j = 0 ; j < i.Data.size() ; j++)
             {
+
                 cout << i.Data.at(j).Firstname << " " << i.Data.at(j).Lastname << " " << i.Data.at(j).Birthday.Year << "/" <<
                 i.Data.at(j).Birthday.Month << "/" << i.Data.at(j).Birthday.Day << "/" << i.Data.at(j).Grade << " " << i.Data.at(j).ID << endl;
                 Status = true;
@@ -621,46 +617,64 @@ void LowToUp(string &pointer)
 }
 void SortById()
 {
-    for(auto & i : Database)
+    if(Database.size() == 0)
     {
-        for(int j = 0 ; j < i.Capacity - 1 ; j++)
+        cout << "There is no element for database...please add a element" << endl;
+    }
+    else
+    {
+        for(auto & i : Database)
         {
-            for(int k = 0 ; k < i.Capacity - j - 1 ; k++)
+            for(int j = 0 ; j < i.Capacity - 1 ; j++)
             {
-                if(i.Data.at(k).ID > i.Data.at(k+1).ID)
+                for(int k = 0 ; k < i.Capacity - j - 1 ; k++)
                 {
-                    swap(i.Data.at(k) , i.Data.at(k+1));
+                    if(i.Data.at(k).ID > i.Data.at(k+1).ID)
+                    {
+                        swap(i.Data.at(k) , i.Data.at(k+1));
+                    }
+                }
+            }
+        }
+    }
+
+}
+void SortByName()
+{
+    if(Database.size() == 0)
+    {
+        cout << "There is no element for database...please add a element" << endl;
+    }
+    else
+    {
+        for(auto & i : Database)
+        {
+            for(int j = 0 ; j < i.Capacity - 1 ; j++)
+            {
+                for(int k = 0 ; k < i.Capacity - j - 1 ; k++)
+                {
+                    for(int n = 0 ; n <= 4 ; n++)
+                    {
+                        if(i.Data.at(k).Firstname.at(n) == i.Data.at(k+1).Firstname.at(n))
+                        {
+                            continue;
+                        }
+                        else if(i.Data.at(k).Firstname.at(n) > i.Data.at(k+1).Firstname.at(n))
+                        {
+                            swap(i.Data.at(k) , i.Data.at(k + 1));
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
 }
-void SortByName()
+void LowToUp2(string &pointer)
 {
-    for(auto & i : Database)
-    {
-        for(int j = 0 ; j < i.Capacity - 1 ; j++)
-        {
-            for(int k = 0 ; k < i.Capacity - j - 1 ; k++)
-            {
-                for(int n = 0 ; n <= 4 ; n++)
-                {
-                    if(i.Data.at(k).Firstname.at(n) == i.Data.at(k+1).Firstname.at(n))
-                    {
-                        continue;
-                    }
-                    else if(i.Data.at(k).Firstname.at(n) > i.Data.at(k+1).Firstname.at(n))
-                    {
-                        swap(i.Data.at(k) , i.Data.at(k + 1));
-                        break;
-                    }
-                    else
-                    {
-                        
-                        break;
-                    }
-                }
-            }
-        }
-    }
+    pointer.at(0) -= 32;
 }
